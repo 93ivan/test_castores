@@ -1,0 +1,149 @@
+<div class="container">
+    <h3>Catalogo de Productos</h3>
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+              + Agregar Producto
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <div class="card card-body">
+                    <form [formGroup]="catalogoForm" (ngSubmit)="newProduct()">
+                        <div class="row">
+                            <div class="mb-3 col-6">
+                                <label for="codigo" class="form-label">Codigo</label>
+                                <input type="text" class="form-control" id="codigo" formControlName="codigo" [ngClass]="{ 'is-invalid': submitted && f.codigo.errors }" >
+                                <div *ngIf="submitted && f.codigo.errors" class="invalid-feedback">
+                                    <div *ngIf="f.codigo.errors.required">Obligatorio</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-6">
+                                <label for="name" class="form-label">Tipo</label>
+                                <input type="text" class="form-control" id="name" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" >
+                                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                                    <div *ngIf="f.name.errors.required">Obligatorio</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-6">
+                                <label for="color" class="form-label">Color</label>
+                                <input type="text" class="form-control" id="color" formControlName="color" [ngClass]="{ 'is-invalid': submitted && f.color.errors }">
+                                <div *ngIf="submitted && f.color.errors" class="invalid-feedback">
+                                    <div *ngIf="f.color.errors.required">Obligatorio</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-6">
+                                <label for="dimension" class="form-label">Dimension</label>
+                                <input type="text" class="form-control" id="dimension" formControlName="dimension">
+                            </div>
+                            <div class="mb-3 col-6">
+                                <label for="capacidad" class="form-label">Capacidad</label>
+                                <input type="text" class="form-control" id="capacidad" formControlName="capacidad" [ngClass]="{ 'is-invalid': submitted && f.capacidad.errors }">
+                                <div *ngIf="submitted && f.capacidad.errors" class="invalid-feedback">
+                                    <div *ngIf="f.capacidad.errors.required">Obligatorio</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-6">
+                                <label for="modelo" class="form-label">Modelo</label>
+                                <input type="text" class="form-control" id="modelo" formControlName="modelo">
+                            </div>
+                            <div class="mb-3 col-6">
+                                <label for="material" class="form-label">Material</label>
+                                <input type="text" class="form-control" id="material" formControlName="material" [ngClass]="{ 'is-invalid': submitted && f.material.errors }">
+                                <div *ngIf="submitted && f.material.errors" class="invalid-feedback">
+                                    <div *ngIf="f.material.errors.required">Obligatorio</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 col-6">
+                                <label for="cantidad" class="form-label">Cantidad Stock</label>
+                                <input type="text" class="form-control" id="cantidad" formControlName="cantidad" [ngClass]="{ 'is-invalid': submitted && f.cantidad.errors }">
+                                <div *ngIf="submitted && f.cantidad.errors" class="invalid-feedback">
+                                    <div *ngIf="f.cantidad.errors.required">Obligatorio</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Agregar</button>
+                    </form>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Color</th>
+            <th scope="col">Dimension</th>
+            <th scope="col">Capacidad</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Material</th>
+            <th scope="col">Cantidad Stock</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let registro of appComponent.allProducts">
+            <th scope="row">{{registro.codigo}}</th>
+            <td>{{registro.name}}</td>
+            <td>{{registro.color}}</td>
+            <td>{{registro.dimension}}</td>
+            <td>{{registro.capacidad}}</td>
+            <td>{{registro.modelo}}</td>
+            <td>{{registro.material}}</td>
+            <td>{{registro.cantidad}}</td>
+            <td>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="addStockModal(registro)">
+                    + Stock
+                </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Agregar Stock</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="card card-body">
+                <div class="row">
+                    <div class="col-12">
+                        Codigo: {{updateProduct.codigo}}
+                    </div>
+                    <div class="col-12">
+                        Tipo: {{updateProduct.name}}
+                    </div>
+                    <div class="col-12">
+                        Color: {{updateProduct.color}}
+                    </div>
+                    <div class="col-12">
+                        Capacidad: {{updateProduct.capacidad}}
+                    </div>
+                    <div class="col-12">
+                        Material: {{updateProduct.material}}
+                    </div>
+                </div>
+            </div>
+          <div class="input-group mb-3">
+            <button class="btn btn-outline-secondary" type="button" (click)="subtractStock()">-</button>
+            <button class="btn btn-outline-secondary" type="button" (click)="addStock()">+</button>
+            <input type="text" class="form-control" placeholder="" value="{{stock}}" (change)="upStock($event)">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="clearStock()">Cancelar</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="updateRegistro()">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
